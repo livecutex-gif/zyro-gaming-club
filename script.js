@@ -5,6 +5,7 @@
   /* --- Nav scroll state --- */
   var nav = document.getElementById('nav');
   var onScroll = function () {
+    if (!nav) return;
     if (window.scrollY > 40) nav.classList.add('scrolled');
     else nav.classList.remove('scrolled');
   };
@@ -13,14 +14,49 @@
 
   /* --- Mobile menu --- */
   var burger = document.getElementById('burger');
-  var links = document.querySelector('.nav-links');
+  var links = document.getElementById('nav-menu');
+
+  function setMenu(open) {
+    if (!burger || !links) return;
+    links.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
+
+  function isMenuOpen() {
+    return !!(links && links.classList.contains('open'));
+  }
+
   if (burger && links) {
     burger.addEventListener('click', function () {
-      links.classList.toggle('open');
+      setMenu(!isMenuOpen());
     });
+
+    /* Close after choosing a section link */
     links.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') links.classList.remove('open');
+      if (e.target.tagName === 'A') setMenu(false);
     });
+
+    /* Escape closes the menu and returns focus to the button */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && isMenuOpen()) {
+        setMenu(false);
+        burger.focus();
+      }
+    });
+
+    /* Click outside closes the menu */
+    document.addEventListener('click', function (e) {
+      if (!isMenuOpen()) return;
+      if (nav && nav.contains(e.target)) return;
+      setMenu(false);
+    });
+
+    /* Reset state when resizing back up to desktop */
+    var mq = window.matchMedia('(min-width: 901px)');
+    var onMq = function (ev) { if (ev.matches) setMenu(false); };
+    if (mq.addEventListener) mq.addEventListener('change', onMq);
+    else if (mq.addListener) mq.addListener(onMq);
   }
 
   /* --- Year --- */
@@ -93,6 +129,9 @@
       e.preventDefault();
       var top = el.getBoundingClientRect().top + window.scrollY - 72;
       window.scrollTo({ top: top, behavior: 'smooth' });
+      /* Move focus to the target so keyboard users land where they looked */
+      el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
     });
   });
 })();
