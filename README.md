@@ -1,88 +1,84 @@
 # ZYRO Gaming Club — Website
 
-One-page marketing site for **ZYRO Gaming Club**, a PS5 gaming lounge in Hansi, Haryana.
-
-Built as a sales prototype: a live link to show the client before closing the deal.
+One-page site for **ZYRO Gaming Club**, a PS5 gaming lounge on Bank Colony Main Road, Hansi, Haryana.
 
 ---
 
-## What's in it
+## Structure
 
-| Section | Purpose |
+| Section | Content |
 |---|---|
-| **Hero** | Full-screen venue video, live "open now" badge, ₹130/hour stat |
-| **Games** | All 8 titles as glowing cards with per-game accent colors |
-| **Pricing** | Full rate list — hourly, extra controller, Duo, Squad, marathon deal |
-| **Gallery** | 10 venue photos in a masonry grid + 2 auto-playing reels |
-| **Food** | ZORKO food-partner section with menu image |
-| **Visit** | Address, both phone numbers, Instagram, embedded Google Map |
-| **Sticky CTA** | WhatsApp booking button, always visible on mobile |
+| Hero | Venue video, address line, two calls to action |
+| Quick facts | Rate, consoles, group size, entry requirement |
+| Games | The eight PS5 titles currently on the shelf |
+| Rates | Hourly rates, extra controller, Duo and Squad combos |
+| Inside | Ten venue photos plus two short clips |
+| Food | ZORKO counter menu with starting prices |
+| Finding us | Address, phone, timings note, Instagram, embedded map |
+| Come play | WhatsApp and phone calls to action |
 
-Every CTA opens WhatsApp with a pre-filled booking message.
+Every booking link opens WhatsApp with a pre-filled message asking for date, time and group size.
 
 ---
 
-## Tech
-
-Plain HTML, CSS and JavaScript. No build step, no dependencies, no framework.
+## Files
 
 - `index.html` — markup and content
-- `style.css` — all styling, custom properties at the top for theming
+- `style.css` — all styling; theme values are CSS custom properties at the top
 - `script.js` — nav state, mobile menu, scroll reveal, video autoplay control
-- `assets/` — images and compressed video
+- `assets/` — full-size images and compressed video
+- `assets/sm/` — smaller image variants served to narrow screens via `srcset`
 
-Fonts load from Google Fonts (Outfit + Space Grotesk).
+No build step, no framework, no dependencies beyond Google Fonts.
 
 ---
 
-## Run it locally
-
-Any static server works:
+## Run locally
 
 ```bash
-# Python
 python -m http.server 8000
-
-# Node
+# or
 npx serve .
 ```
 
-Then open `http://localhost:8000`.
-
-Opening `index.html` directly also works, though the hero video may not autoplay from `file://` in some browsers.
-
 ---
 
-## Deploy
+## Editing
 
-Drag the folder onto [Netlify Drop](https://app.netlify.com/drop), or connect the repo to Vercel / Netlify / Cloudflare Pages. It is fully static — no configuration needed.
+**Rates** live in `index.html` under `#pricing`, as `.rate-row` blocks.
 
----
-
-## Editing content
-
-**Prices** live in `index.html` under the `#pricing` section. Each price is a `.price-card` or `.offer` block.
-
-**Colors** are CSS custom properties at the top of `style.css`:
+**Colours** are custom properties at the top of `style.css`:
 
 ```css
---pink:   #ff2d95;
---purple: #8b00ff;
---cyan:   #00e5ff;
---grad:   linear-gradient(100deg, #ff2d95 0%, #a855f7 45%, #00e5ff 100%);
+--accent:      #ff2d95;  /* text, links, borders on dark */
+--accent-fill: #d61a78;  /* button fills, so white text passes AA */
 ```
 
-Change those and the whole site re-themes.
+The pink is split into two tones on purpose: the brighter one is readable as text on the dark
+background, the darker one keeps white button labels above the 4.5:1 contrast threshold.
+Changing one without checking the other can break contrast.
 
-**Phone number** appears in several `tel:` and `wa.me` links — search for `8221939044` and replace all.
+**Phone number** appears in several `tel:` and `wa.me` links — search for `8221939044`.
 
 ---
 
 ## Known limitations
 
-- **Source media is vertical.** All photos and video were extracted from Instagram reels (9:16). Burned-in contact overlays were cropped out, but the gallery crops hard. A horizontal photo shoot would improve it significantly.
+- **Source media is vertical.** Photos and video were extracted from Instagram reels (9:16).
+  Burned-in contact overlays were cropped out, but the gallery still crops hard. A horizontal
+  photo shoot would improve it noticeably.
 - **Hero video is grainy.** Low-light phone footage, compressed to 3 MB for web.
-- **No backend.** The booking flow is WhatsApp, not a real booking system. A tournament signup form would need a backend or a form service.
+- **No backend.** Booking runs through WhatsApp, not a reservation system.
+
+---
+
+## Business details still to confirm
+
+1. **Opening hours** — not listed anywhere. The Timings card says so and links to a phone call.
+2. **Extra controller charge** — the source said "+₹40 per person", which is ambiguous. The site
+   shows the amount with "Ask at the counter" as the qualifier.
+3. **4-hour session rate** — the original promo said "50% off" without a final price or a stated
+   basis. The site shows "Ask" rather than a figure that cannot be verified.
 
 ---
 
@@ -91,4 +87,3 @@ Change those and the whole site re-themes.
 - **Address:** Bank Colony Main Road, near Vishal Copy Factory, Hansi, Haryana
 - **Phone:** 8221939044 · 95184 02728
 - **Instagram:** [@zyrogamingclub](https://www.instagram.com/zyrogamingclub/)
-- **Owners:** @garvpahwaaa · @akshaybatrax
